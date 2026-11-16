@@ -2,7 +2,7 @@
 
 ## 1. Back up the live database
 
-Before changing the production database, create a Supabase backup or export the existing tables. The migration below is additive and does not delete the existing member, loan, savings or repayment records
+Before changing the production database, create a Supabase backup or export the existing tables. The migration below is additive and does not delete the existing member, loan, savings or repayment records.
 
 ## 2. Run the supplied additive migration
 
