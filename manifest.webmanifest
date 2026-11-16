@@ -1,0 +1,26 @@
+{
+  "id": "/login",
+  "name": "SND Brightlife CBO Member & Admin App",
+  "short_name": "Brightlife App",
+  "description": "Private Brightlife CBO member and administration application.",
+  "start_url": "/login",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f7fb",
+  "theme_color": "#102b46",
+  "icons": [
+    {
+      "src": "/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

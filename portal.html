@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Private Brightlife CBO member and administration application." />
+    
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="author" content="SND Brightlife CBO" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Brightlife CBO | Private Application" />
+    <meta property="og:description" content="Private Brightlife CBO application." />
+    <meta property="og:url" content="https://brightlifesnd.com/login" />
+    <meta property="og:site_name" content="SND Brightlife CBO" />
+    <meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#102b46" />
+    <meta name="application-name" content="Brightlife CBO" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Brightlife CBO" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Brightlife CBO | Private Application</title>
+    <link rel="stylesheet" href="/assets/app.css?v=20261117-1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+</head>
+<body>
+    <div id="brightlifeBootLoader" style="display:none;position:fixed;inset:0;z-index:99999;background:var(--gray-50,#f8fafc);align-items:center;justify-content:center;padding:24px;">
+        <div style="width:min(420px,100%);background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:18px;padding:28px;box-shadow:0 18px 50px rgba(15,23,42,.10);text-align:center;">
+            <div style="width:44px;height:44px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary,#2563eb);color:#fff;"><i class="fas fa-spinner fa-spin"></i></div>
+            <div style="font-size:17px;font-weight:800;color:var(--gray-900,#111827);">Loading Brightlife</div>
+            
+        </div>
+    </div>
+
+    
+    <button class="mobile-menu-toggle hidden" id="mobileMenuToggle" onclick="toggleMobileSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+    
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><img src="/favicon.png" alt="Brightlife CBO"></div>
+            <div>
+                <div class="brand-text">Brightlife <span>CBO</span></div>
+                <span class="brand-sub">Savings & Loans</span>
+            </div>
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-nav" id="sidebarNav">
+            <div class="nav-section" id="secureMemberSection" style="display:none;">
+                <div class="section-label">Secure Member Area</div>
+                <button class="nav-item" onclick="navigateTo('dashboard')" id="nav-dashboard"><i class="fas fa-gauge-high"></i><span class="nav-text">Dashboard</span></button>
+
+
+                <div class="secure-nav-group" id="secureTableBankingGroup">
+                    <button type="button" class="hierarchy-toggle" aria-expanded="true" onclick="toggleNavGroup('secureTableBankingGroup', this)">
+                        <span class="hierarchy-title"><i class="fas fa-coins"></i><span>Table Banking</span></span><i class="fas fa-chevron-right hierarchy-chevron"></i>
+                    </button>
+                    <div class="hierarchy-children">
+                        <button class="nav-item secure-subnav" onclick="navigateTo('savings')" id="nav-savings"><i class="fas fa-piggy-bank"></i><span class="nav-text">Savings</span></button>
+                        <button class="nav-item secure-subnav" onclick="navigateTo('loanmanagement')" id="nav-loanmanagement"><i class="fas fa-hand-holding-usd"></i><span class="nav-text">Loan Management</span></button>
+                        <button class="nav-item secure-subnav" onclick="navigateTo('guarantors')" id="nav-guarantors"><i class="fas fa-user-shield"></i><span class="nav-text">Guarantors</span><span class="badge-count" id="guarantorBadge" style="display:none;">0</span></button>
+                        <button class="nav-item secure-subnav" onclick="navigateTo('repayments')" id="nav-repayments" style="display:none;"><i class="fas fa-history"></i><span class="nav-text">Repayments</span></button>
+                        <button class="nav-item secure-subnav" onclick="navigateTo('transactions')" id="nav-transactions"><i class="fas fa-exchange-alt"></i><span class="nav-text">My Transactions</span></button>
+                        <button class="nav-item secure-subnav" onclick="navigateTo('reports')" id="nav-reports"><i class="fas fa-file-lines"></i><span class="nav-text">My Statement</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section" id="adminSection" style="display:none;">
+                <div class="section-label">Administration</div>
+                
+                <div class="admin-nav-group" id="adminOverviewGroup"><button type="button" class="hierarchy-toggle" aria-expanded="true" onclick="toggleNavGroup('adminOverviewGroup', this)"><span class="hierarchy-title"><i class="fas fa-chart-pie"></i><span>Overview & Performance</span></span><i class="fas fa-chevron-right hierarchy-chevron"></i></button><div class="hierarchy-children">
+                    <button class="nav-item subnav" onclick="navigateTo('admin')" id="nav-admin" style="display:none;"><i class="fas fa-building"></i><span class="nav-text">Organization Dashboard</span><span class="badge-count" id="pendingBadge">0</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('executive')" id="nav-executive" style="display:none;"><i class="fas fa-chart-line"></i><span class="nav-text">Executive Overview</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('reports')" id="nav-admin-reports" style="display:none;"><i class="fas fa-file-chart-column"></i><span class="nav-text">Management Reports</span></button>
+                </div></div>
+                <div class="admin-nav-group" id="adminOperationsGroup"><button type="button" class="hierarchy-toggle" aria-expanded="true" onclick="toggleNavGroup('adminOperationsGroup', this)"><span class="hierarchy-title"><i class="fas fa-briefcase"></i><span>Operations</span></span><i class="fas fa-chevron-right hierarchy-chevron"></i></button><div class="hierarchy-children">
+                    <button class="nav-item subnav" onclick="navigateTo('members')" id="nav-members" style="display:none;"><i class="fas fa-users"></i><span class="nav-text">Member Management</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('alltransactions')" id="nav-alltransactions" style="display:none;"><i class="fas fa-arrow-right-arrow-left"></i><span class="nav-text">Transaction Operations</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('dataimport')" id="nav-dataimport" style="display:none;"><i class="fas fa-file-import"></i><span class="nav-text">Data Importation</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('repayments')" id="nav-admin-repayments" style="display:none;"><i class="fas fa-money-bill-transfer"></i><span class="nav-text">Repayment Operations</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('chat')" id="nav-chat" style="display:none;"><i class="fas fa-headset"></i><span class="nav-text">Customer Care</span><span class="badge-count" id="chatBadge" style="display:none;">0</span></button>
+                </div></div>
+                <div class="admin-nav-group" id="adminGovernanceGroup"><button type="button" class="hierarchy-toggle" aria-expanded="true" onclick="toggleNavGroup('adminGovernanceGroup', this)"><span class="hierarchy-title"><i class="fas fa-shield-halved"></i><span>Governance & Control</span></span><i class="fas fa-chevron-right hierarchy-chevron"></i></button><div class="hierarchy-children">
+                    <button class="nav-item subnav" onclick="navigateTo('rights')" id="nav-rights" style="display:none;"><i class="fas fa-user-lock"></i><span class="nav-text">Access & Rights</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('profile')" id="nav-admin-profile" style="display:none;"><i class="fas fa-user-shield"></i><span class="nav-text">Administrator Profile</span></button>
+                    <button class="nav-item subnav" onclick="navigateTo('adminsettings')" id="nav-adminsettings-main" style="display:none;"><i class="fas fa-sliders"></i><span class="nav-text">System Administration</span></button>
+                </div></div>
+            </div>
+            <div class="nav-section" id="settingsSection">
+                <div class="section-label">Settings</div>
+                <button type="button" class="nav-item" onclick="navigateTo('settings')" id="nav-settings"><i class="fas fa-cog"></i><span class="nav-text">Settings</span></button>
+
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="avatar" id="userAvatar">G</div>
+            <div class="user-info">
+                <div class="user-name" id="userName">Guest</div>
+                <div class="user-role" id="userRole">Not Logged In</div>
+            </div>
+            <button class="logout-btn" onclick="confirmLogout()" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    
+    <div class="main-wrapper" id="mainWrapper">
+        
+            <div class="auth-container" id="app" style="display:block;">
+            <div class="auth-back-row app-install-row"><span></span><button type="button" class="auth-back-btn" id="installAppButton" style="display:none"><i class="fas fa-download"></i><span>Install App</span></button></div>
+            <div class="auth-logo">
+                <div class="icon"><img src="/favicon.png" alt="Brightlife CBO"></div>
+                <h1>Brightlife <span>CBO</span></h1>
+                <p>Member &amp; Administration Portal</p>
+            </div>
+
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('login')">Sign In</button>
+                <button class="tab-btn" onclick="showTab('register')">Register</button>
+            </div>
+
+            
+            <div id="loginTab" class="tab-content active">
+                <div id="loginMessage"></div>
+                <form id="loginForm" onsubmit="loginUser(event)">
+                    <div class="form-group">
+                        <label>ID Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="loginId" placeholder="Enter your ID number" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray-400); cursor:pointer;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-arrow-right"></i> Sign In
+                    </button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-forgot-btn" onclick="showTab('reset'); return false;">Forgot Password?</button>
+                </div>
+            </div>
+
+            
+            <div id="registerTab" class="tab-content">
+                <div class="registration-layout">
+                <div class="registration-form-panel">
+                <div id="registerMessage"></div>
+                <form id="registerForm" onsubmit="registerUser(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="regName" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>ID Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="regId" placeholder="12345678" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="regPhone" placeholder="0712345678" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span style="color:var(--danger,#dc2626);">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="regEmail" placeholder="john@example.com" required autocomplete="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="regPassword" placeholder="Create password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('regPassword')" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray-400); cursor:pointer;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-check-circle"></i>
+                            <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('regConfirmPassword')" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray-400); cursor:pointer;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                </div>
+
+                </div>
+            </div>
+
+            <div id="resetTab" class="tab-content">
+                <div id="resetMessage"></div>
+                <form id="resetForm" onsubmit="resetPasswordFunc(event)">
+                    <div class="form-group"><label>ID Number</label><div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="resetId" required></div></div>
+                    <div class="form-group"><label>Registered Email</label><div class="input-wrapper"><i class="fas fa-envelope"></i><input type="email" id="resetEmail" required></div></div>
+                    <button type="button" id="sendResetOtpBtn" class="btn-outline" onclick="requestResetOtp()"><i class="fas fa-paper-plane"></i> Send OTP</button>
+                    <div class="form-group"><label>6-Digit OTP</label><div class="input-wrapper"><i class="fas fa-shield-alt"></i><input type="text" id="resetOtp" inputmode="numeric" maxlength="6"></div></div>
+                    <div class="form-group"><label>New Password</label><div class="input-wrapper"><i class="fas fa-lock"></i><input type="password" id="resetNewPassword" minlength="8" required></div></div>
+                    <div class="form-group"><label>Confirm Password</label><div class="input-wrapper"><i class="fas fa-check-circle"></i><input type="password" id="resetConfirmPassword" minlength="8" required></div></div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-key"></i> Reset Password</button>
+                    <button type="button" class="btn-outline" onclick="showTab('login')" style="margin-top:10px;"><i class="fas fa-arrow-left"></i> Back to Sign In</button>
+                </form>
+            </div>
+
+            
+        </div>
+
+        
+        <div class="dashboard-container" id="dashboard" style="display: none;">
+            <div class="member-topbar" id="memberTopbar">
+                <div class="member-topbar-left">
+                    <button class="workspace-mobile-menu-btn" id="workspaceMobileMenuBtn" type="button" onclick="toggleMobileSidebar()" aria-label="Open workspace menu" aria-expanded="false">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <div class="member-page-title" id="memberTopbarTitle">Dashboard</div>
+                </div>
+                <div class="member-topbar-actions">
+                    <button class="topbar-icon-btn" type="button" title="Messages" onclick="navigateTo('messages')">
+                        <i class="fas fa-envelope"></i><span class="topbar-badge" id="topMessageBadge" style="display:none;">0</span>
+                    </button>
+                    <div class="account-wrap" id="accountMenuWrap">
+                        <button class="account-trigger" type="button" onclick="toggleAccountMenu(event)" aria-haspopup="true" aria-expanded="false">
+                            <span class="account-avatar" id="topAccountAvatar">G</span>
+                            <span class="account-trigger-text"><span class="account-trigger-name" id="topAccountName">Member</span><span class="account-trigger-role" id="topAccountRole">Member</span></span>
+                            <i class="fas fa-chevron-down account-chevron"></i>
+                        </button>
+                        <div class="account-menu" id="accountMenu" role="menu">
+                            <div class="account-menu-label">My Account</div>
+                            <button type="button" onclick="closeAccountMenu();navigateTo('profile')"><i class="fas fa-user"></i> Profile</button>
+                            <button type="button" onclick="closeAccountMenu();navigateTo('settings')"><i class="fas fa-gear"></i> Settings</button>
+                            <button type="button" class="danger" onclick="closeAccountMenu();confirmLogout()"><i class="fas fa-right-from-bracket"></i> Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dashboardContent"></div>
+        </div>
+    </div>
+<script src="/assets/app.js?v=20261117-1" defer></script>
+</body>
+</html>
+    
