@@ -1,5 +1,5 @@
-const CACHE_NAME = 'brightlife-public-portal-v2.4.0-cache';
-const APP_SHELL = ['/', '/login', '/portal.html', '/manifest.webmanifest', '/favicon.png', '/favicon.ico', '/app-icon-192.png', '/app-icon-512.png', '/public-reference.css?v=20261117-2', '/public-pages.js?v=20261117-2', '/assets/images/snd-brightlife-mark.png', '/assets/app.css?v=20261117-1', '/assets/app.js?v=20261117-1'];
+const CACHE_NAME = 'brightlife-public-portal-v2.4.1-cache';
+const APP_SHELL = ['/', '/login', '/portal.html', '/manifest.webmanifest', '/favicon.png', '/favicon.ico', '/app-icon-192.png', '/app-icon-512.png', '/public-reference.css?v=20261117-3', '/public-pages.js?v=20261117-3', '/assets/images/snd-brightlife-mark.png', '/assets/app.css?v=20261117-2', '/assets/app.js?v=20261117-2'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });

@@ -1,4 +1,4 @@
-# Brightlife public website and private app routes (v2.4.0)
+# Brightlife public website and private app routes (v2.4.1)
 
 ## Public/private URL structure
 - `/` serves the public, donor- and partner-facing multi-page website.

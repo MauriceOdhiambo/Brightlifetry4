@@ -1437,9 +1437,13 @@ async function saveSiteContent(data) {
         var title = String(data && data.title || '').trim();
         var body = String(data && data.body || '').trim();
         var imageUrl = String(data && data.imageUrl || '').trim();
+        var published = data && data.published === false ? false : true;
 
-        if (imageUrl && !/^https?:\/\//i.test(imageUrl)) {
-            throw new Error('Photo URL must begin with http:// or https://');
+        if (title.length > 160) throw new Error('Project title must be 160 characters or fewer.');
+        if (body.length > 10000) throw new Error('Project description must be 10,000 characters or fewer.');
+        if (imageUrl.length > 2000) throw new Error('Photo URL is too long.');
+        if (imageUrl && !/^https?:\/\//i.test(imageUrl) && !/^\/(?!\/)[^\s]+$/.test(imageUrl)) {
+            throw new Error('Photo URL must be an HTTP(S) URL or a local path beginning with /.');
         }
 
         var payload = {
@@ -1447,7 +1451,7 @@ async function saveSiteContent(data) {
             title: title,
             body: body,
             image_url: imageUrl,
-            published: true,
+            published: published,
             updated_by: actor.id,
             updated_at: new Date().toISOString()
         };
@@ -1484,7 +1488,7 @@ async function saveSiteContent(data) {
         }
 
         await writeAuditLog(
-            'SITE_CONTENT_PUBLISHED',
+            published ? 'SITE_CONTENT_PUBLISHED' : 'SITE_CONTENT_DRAFT_SAVED',
             actor.id,
             'site_content',
             key,
@@ -1495,7 +1499,7 @@ async function saveSiteContent(data) {
 
         return {
             success: true,
-            message: 'Content published successfully.',
+            message: published ? 'Content published successfully.' : 'Content saved as a draft.',
             item: (result.data && result.data[0]) || null
         };
     } catch (e) {

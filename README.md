@@ -1,6 +1,6 @@
 # SND Brightlife CBO — Public Website & Private Member Portal
 
-Version **2.4.0** combines the restored public multi-page website with the existing private member and administrator application. The two experiences are separated at the entry-point level: public visitors see the organization website, while members and administrators use the private portal.
+Version **2.4.1** combines the restored public multi-page website with the existing private member and administrator application. The two experiences are separated at the entry-point level: public visitors see the organization website, while members and administrators use the private portal.
 
 ## Public and private routes
 
@@ -24,6 +24,7 @@ The public navigation and pages do not include member sign-in or registration co
 - `assets/images/` — client project photographs and Brightlife brand assets.
 - `assets/images/generated/` — five generated reference images used by the public project photography mapping.
 - `robots.txt` and `sitemap.xml` — public search-engine directives.
+- `supabase/migrations/202611170001_site_content.sql` — creates the `site_content` table if it is not already present.
 
 Contact and partnership forms prepare an email in the visitor's default email application; they do not save submissions to the database. The Support / Donate page requests official giving instructions by email and does not process payments online. Published project text and photos use the existing `getPublishedSiteContent` API function.
 
@@ -77,7 +78,7 @@ Run:
 npm run check
 ```
 
-This runs JavaScript syntax checks and automated checks for the eight main public pages, programme detail routes, shared page layout, and absence of public login/registration UI. It does not replace production testing against the live Vercel deployment and configured database.
+This runs JavaScript syntax checks and automated checks for the eight main public pages, programme detail routes, shared page layout, absence of public login/registration UI, and the admin-only website content manager. It does not replace production testing against the live Vercel deployment and configured database.
 
 ## Production deployment
 

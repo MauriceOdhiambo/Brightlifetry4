@@ -276,8 +276,8 @@ window.BRIGHTLIFE_BUILD = 'BRIGHTLIFE-PORTAL-ONLY-2026-11-15';
         }
 
 function navigateTo(page) {
-            if (['home','projects','contacts','about','programs','approach','finance','membership','partner','contact','contentmanagement'].includes(page) || String(page).indexOf('project-') === 0 || page === 'trainings') { openMemberLogin(); return; }
-            const securePages = ['dashboard','savings','loans','loanmanagement','guarantors','repayments','transactions','reports','profile','messages','settings','adminsettings','admin','members','alltransactions','executive','chat','rights'];
+            if (['home','projects','contacts','about','programs','approach','finance','membership','partner','contact'].includes(page) || String(page).indexOf('project-') === 0 || page === 'trainings') { openMemberLogin(); return; }
+            const securePages = ['dashboard','savings','loans','loanmanagement','guarantors','repayments','transactions','reports','profile','messages','settings','adminsettings','admin','members','alltransactions','executive','chat','rights','contentmanagement'];
             if (securePages.indexOf(page) !== -1 && !getCanonicalMemberId()) {
                 openMemberLogin();
                 return;
@@ -322,7 +322,7 @@ function navigateTo(page) {
                 var mw = document.getElementById('mainWrapper');
                 if(mw && mw.classList) mw.classList.remove('public-site-mode');
             }
-            var pageNames={dashboard:['Dashboard',''],savings:['Savings','Your savings and contributions'],loans:['Loans','Loan applications and status'],loanmanagement:['Loan Management','Manage your borrowing and repayment obligations'],guarantors:['Guarantors','Guarantee requests and history'],repayments:['Repayments','Your loan repayment records'],transactions:['My Transactions','Your personal transaction history'],reports:['My Statement','Your personal financial statement'],messages:['Messages','Secure member communication'],profile:['Profile','Manage your member profile'],settings:['Settings','Account preferences'],adminsettings:['Admin Settings','Organization controls and administrator access'],['project-water']:['Water Supply','Community project information and updates'],['project-poultry']:['Poultry','Community project information and updates'],['project-agriculture']:['Agriculture & Livelihoods','Community project information and updates'],['project-bike-skills']:['Bike Repair & Vocational Skills','Community project information and updates'],['project-education']:['Education Support','Community project information and updates'],['project-entrepreneurship']:['Entrepreneurship & Small Business','Community project information and updates'],['project-women']:['Women Empowerment','Community project information and updates'],['project-youth']:['Youth Empowerment','Community project information and updates'],['project-community-development']:['Community Development','Community project information and updates'],['project-other']:['Other Community Projects','Community project information and updates'],trainings:['Training','Training activities and learning updates']};
+            var pageNames={dashboard:['Dashboard',''],savings:['Savings','Your savings and contributions'],loans:['Loans','Loan applications and status'],loanmanagement:['Loan Management','Manage your borrowing and repayment obligations'],guarantors:['Guarantors','Guarantee requests and history'],repayments:['Repayments','Your loan repayment records'],transactions:['My Transactions','Your personal transaction history'],reports:['My Statement','Your personal financial statement'],messages:['Messages','Secure member communication'],profile:['Profile','Manage your member profile'],settings:['Settings','Account preferences'],adminsettings:['Admin Settings','Organization controls and administrator access'],contentmanagement:['Website Management','Update public project descriptions, images and publication status'],['project-water']:['Water Supply','Community project information and updates'],['project-poultry']:['Poultry','Community project information and updates'],['project-agriculture']:['Agriculture & Livelihoods','Community project information and updates'],['project-bike-skills']:['Bike Repair & Vocational Skills','Community project information and updates'],['project-education']:['Education Support','Community project information and updates'],['project-entrepreneurship']:['Entrepreneurship & Small Business','Community project information and updates'],['project-women']:['Women Empowerment','Community project information and updates'],['project-youth']:['Youth Empowerment','Community project information and updates'],['project-community-development']:['Community Development','Community project information and updates'],['project-other']:['Other Community Projects','Community project information and updates'],trainings:['Training','Training activities and learning updates']};
             if(pageNames[page]) setMemberTopbarPage(page,pageNames[page][0],pageNames[page][1]);
             const publicSidebar = document.getElementById('publicSidebarSection');
             const secureSection = document.getElementById('secureMemberSection');
@@ -412,6 +412,9 @@ function navigateTo(page) {
                     break;
                 case 'adminsettings':
                     loadAdminSettingsPage();
+                    break;
+                case 'contentmanagement':
+                    loadWebsiteManagementPage();
                     break;
                 default:
                     loadDashboard();
@@ -705,6 +708,7 @@ function updateUserInfo(member) {
                 setElementDisplaySafe('nav-dataimport', (member.role === 'super_admin' || (member.role === 'admin' && permissions.data_import === true)) ? 'flex' : 'none');
                 setElementDisplaySafe('nav-admin-profile', isAdmin ? 'flex' : 'none');
                 if (document.getElementById('nav-adminsettings-main')) setElementDisplaySafe('nav-adminsettings-main', (member.role === 'super_admin' || member.role === 'admin') ? 'flex' : 'none');
+                setElementDisplaySafe('nav-websitecontent', (member.role === 'super_admin' || member.role === 'admin') ? 'flex' : 'none');
                 setElementDisplaySafe('nav-settings', 'flex');
 
                 showSidebar();
@@ -724,6 +728,7 @@ function updateUserInfo(member) {
                 setElementDisplaySafe('nav-admin-profile', 'none');
                 if (document.getElementById('nav-approvals')) setElementDisplaySafe('nav-approvals', 'none');
                 if (document.getElementById('nav-adminsettings-main')) setElementDisplaySafe('nav-adminsettings-main', 'none');
+                setElementDisplaySafe('nav-websitecontent', 'none');
                 hideSidebar();
                 currentUser = null;
             }
@@ -5418,6 +5423,101 @@ html+=`<div class="section-card" id="reportFilters"><div class="section-title"><
         }
 
         
+        var websiteContentSections = [
+            ['projects_intro','Projects — Page Introduction','Controls the introduction shown at the top of the public Projects page.'],
+            ['home_hero','Home — Hero Section','Main heading, introduction and optional hero image.'],
+            ['home_about','Home — Who We Are','Organizational introduction and optional photograph.'],
+            ['home_feature','Home — Featured Update','Current community highlight for the Home page.'],
+            ['water','Clean Water, Treatment & Water Vending','Water programme and project notes, progress and photograph.'],
+            ['poultry','Poultry Farming','Poultry livelihood activities, progress and photograph.'],
+            ['agriculture','Agriculture & Livelihoods','Agriculture, kitchen gardens, small livestock, agribusiness and value addition.'],
+            ['bike_skills','Bike Repair & Vocational Skills','Vocational maintenance, repair, safety, customer service and business skills.'],
+            ['education','Education Support','Education materials, mentorship, career guidance, vocational training and life skills.'],
+            ['entrepreneurship','Entrepreneurship & Small Business','Small-business development, enterprise skills and income-generation activities.'],
+            ['women','Women Empowerment','Women-focused development, skills, economic participation and leadership.'],
+            ['youth','Youth Empowerment','Youth skills, mentorship, entrepreneurship and participation.'],
+            ['financial_literacy','Financial Literacy','Practical financial education for responsible saving, borrowing and enterprise.'],
+            ['community_development','Community Development','Water, sanitation, education, agriculture, skills, environment, health awareness, entrepreneurship, youth, women and welfare.'],
+            ['other','Other Community Projects','Additional approved initiatives and community updates.'],
+            ['training','Training & Capacity Building','Seminars, workshops, community training, lessons and photographs.']
+        ];
+        window.brightlifeWebsiteContentItems=[];
+
+        function normalizeWebsiteImageUrl(value){
+            var url=String(value||'').trim();
+            if(/^\/(?!\/)[^\s]+$/.test(url))return url;
+            if(!/^https?:\/\//i.test(url))return '';
+            try{
+                var parsed=new URL(url),host=parsed.hostname.toLowerCase();
+                if(host==='drive.google.com'||host==='docs.google.com'){
+                    var match=parsed.pathname.match(/\/file\/d\/([a-zA-Z0-9_-]+)/),id=match&&match[1]?match[1]:parsed.searchParams.get('id');
+                    if(id)return 'https://drive.google.com/uc?export=view&id='+encodeURIComponent(id);
+                }
+                if(host==='www.dropbox.com'||host==='dropbox.com'){parsed.hostname='dl.dropboxusercontent.com';parsed.searchParams.delete('dl');parsed.searchParams.delete('raw');}
+                return parsed.toString();
+            }catch(e){return '';}
+        }
+        function updateWebsiteContentPhotoPreview(key){
+            var input=document.getElementById('websitePhoto_'+key),preview=document.getElementById('websitePhotoPreview_'+key),message=document.getElementById('websitePhotoMessage_'+key);
+            if(!input||!preview||!message)return;
+            var url=normalizeWebsiteImageUrl(input.value);
+            if(!url){preview.style.display='none';preview.removeAttribute('src');message.textContent=input.value.trim()?'Use a valid public image URL or local path.':'No replacement photograph selected; the built-in website image will remain.';return;}
+            preview.onload=function(){preview.style.display='block';message.textContent='Image preview loaded.';};
+            preview.onerror=function(){preview.style.display='none';message.textContent='Image preview unavailable. Confirm that the URL is publicly accessible.';};
+            preview.src=url;
+        }
+        async function loadWebsiteManagementPage(){
+            var memberId=getCanonicalMemberId(),role=String((currentUser&&currentUser.role)||sessionStorage.getItem('memberRole')||'').toLowerCase();
+            var el=document.getElementById('dashboardContent');if(!el)return;
+            setMemberTopbarPage('contentmanagement','Website Management','Update approved CBO information, project descriptions and photographs shown on the public website.');
+            if(!memberId||(role!=='admin'&&role!=='super_admin')){
+                showToast('Website management is available to administrators only.','error');
+                el.innerHTML='<div class="dashboard-body"><div class="section-card"><h2>Access restricted</h2><p>Only an administrator can manage public website content.</p></div></div>';return;
+            }
+            el.innerHTML='<div class="dashboard-body"><div class="section-card"><div style="text-align:center;padding:35px"><i class="fas fa-spinner fa-spin" style="font-size:28px;color:var(--primary)"></i><p>Loading website management…</p></div></div></div>';
+            try{
+                var result=await callServer('getSiteContentAdmin',{memberId:memberId},{force:true});
+                if(!result||!result.success)throw new Error(result&&result.message||'Unable to load website management.');
+                var rows=result.items||[];window.brightlifeWebsiteContentItems=rows;
+                var byKey={};rows.forEach(function(row){byKey[row.content_key]=row;});
+                var html='<div class="dashboard-body website-management-page"><div class="welcome-hero"><div><div class="welcome-kicker">Authorized Personnel</div><div class="welcome-title">Website Management</div><div class="welcome-sub">Update approved CBO information, project descriptions and photographs. Changes are reflected on the public website after publishing.</div></div><div class="admin-profile-chip"><i class="fas fa-globe"></i> '+(role==='super_admin'?'Super Admin':'Administrator')+'</div></div>'+
+                    '<div class="section-card website-management-intro"><div class="section-title"><i class="fas fa-layer-group"></i> Public website content</div><p>Choose any section below to update it. You can change its heading, description and photograph. Select <strong>Save & Publish</strong> to make the update visible on the public website. This workspace does not change member records, savings, loans or financial transactions.</p><div class="website-management-actions"><a href="/" target="_blank" rel="noopener noreferrer" class="btn-outline"><i class="fas fa-arrow-up-right-from-square"></i> View Public Website</a><button class="btn-outline" type="button" onclick="loadWebsiteManagementPage()"><i class="fas fa-rotate"></i> Reload Content</button></div></div><div class="website-content-grid">';
+                websiteContentSections.forEach(function(sec){
+                    var row=byKey[sec[0]]||{};
+                    var published=row.published!==false;
+                    html+='<section class="section-card website-content-card" data-content-key="'+sec[0]+'"><div class="website-content-card-heading"><div><div class="section-title"><i class="fas fa-pen-to-square"></i> '+escapeHtml(sec[1])+'</div><p>'+escapeHtml(sec[2])+'</p></div><span class="website-content-status '+(row.published===false?'draft':'published')+'">'+(row.content_key?(published?'Published':'Draft'):'Not created')+'</span></div><div class="website-content-fields">'+
+                        '<div class="form-group"><label for="websiteTitle_'+sec[0]+'">Title / Heading</label><input class="form-control" id="websiteTitle_'+sec[0]+'" maxlength="160" value="'+escapeHtml(row.title||'')+'" placeholder="Enter title or heading"></div>'+
+                        '<div class="form-group"><label for="websitePhoto_'+sec[0]+'">Photo URL (optional)</label><input class="form-control" id="websitePhoto_'+sec[0]+'" value="'+escapeHtml(row.image_url||'')+'" placeholder="https://… or /assets/images/…" oninput="updateWebsiteContentPhotoPreview(&quot;'+sec[0]+'&quot;)"><small>Use a publicly accessible JPG, PNG or WebP URL, a local path, or a Google Drive share link.</small><img id="websitePhotoPreview_'+sec[0]+'" alt="'+escapeHtml(sec[1])+' photo preview" class="website-content-photo-preview"><small id="websitePhotoMessage_'+sec[0]+'">Optional replacement photograph.</small></div>'+
+                        '<div class="form-group website-content-description"><label for="websiteBody_'+sec[0]+'">Notes / Description</label><textarea class="form-control" id="websiteBody_'+sec[0]+'" rows="4" maxlength="10000" placeholder="Write the approved update…">'+escapeHtml(row.body||'')+'</textarea></div></div><div class="website-content-card-footer"><label class="website-publish-toggle"><input type="checkbox" id="websitePublished_'+sec[0]+'" '+(published?'checked':'')+'><span>Publish this content</span></label><button type="button" class="btn-primary" id="websiteSave_'+sec[0]+'" onclick="saveWebsiteContentSection(&quot;'+sec[0]+'&quot;)"><i class="fas fa-cloud-arrow-up"></i> Save &amp; Publish</button></div></section>';
+                });
+                html+='</div></div>';el.innerHTML=html;
+                websiteContentSections.forEach(function(sec){updateWebsiteContentPhotoPreview(sec[0]);});
+            }catch(error){
+                el.innerHTML='<div class="dashboard-body"><div class="section-card"><div class="alert alert-error">'+escapeHtml(error.message||'Unable to load website manager.')+'</div><button class="btn-primary" onclick="loadWebsiteManagementPage()">Try Again</button></div></div>';
+                showToast(error.message||'Unable to load website management.','error');
+            }
+        }
+        async function saveWebsiteContentSection(key){
+            var memberId=getCanonicalMemberId();if(!memberId)return;
+            var role=String((currentUser&&currentUser.role)||sessionStorage.getItem('memberRole')||'').toLowerCase();
+            if(role!=='admin'&&role!=='super_admin'){showToast('Authorized personnel only.','error');return;}
+            var title=(document.getElementById('websiteTitle_'+key)||{}).value||'';
+            var body=(document.getElementById('websiteBody_'+key)||{}).value||'';
+            var rawImage=(document.getElementById('websitePhoto_'+key)||{}).value||'';
+            var imageUrl=normalizeWebsiteImageUrl(rawImage)||String(rawImage).trim();
+            var published=!!(document.getElementById('websitePublished_'+key)||{}).checked;
+            var button=document.getElementById('websiteSave_'+key);if(button){button.disabled=true;button.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving…';}
+            try{
+                var result=await callServer('saveSiteContent',{memberId:memberId,contentKey:key,title:title,body:body,imageUrl:imageUrl,published:published},{force:true});
+                if(!result||!result.success)throw new Error(result&&result.message||'Could not save website content.');
+                showToast(published?'Website content saved and published.':'Website content saved as a draft.','success');
+                await loadWebsiteManagementPage();
+            }catch(error){showToast(error.message||'Unable to save website content.','error');if(button){button.disabled=false;button.innerHTML='<i class="fas fa-cloud-arrow-up"></i> Save &amp; Publish';}}
+        }
+        window.loadWebsiteManagementPage=loadWebsiteManagementPage;
+        window.updateWebsiteContentPhotoPreview=updateWebsiteContentPhotoPreview;
+        window.saveWebsiteContentSection=saveWebsiteContentSection;
+
         async function logout() {
             try {
                 var token = sessionStorage.getItem('brightlifeSessionToken') || '';
@@ -5502,6 +5602,7 @@ html+=`<div class="section-card" id="reportFilters"><div class="section-title"><
                     'admin' || permissions.view_transactions) ? 'flex' : 'none');
                 setElementDisplaySafe('nav-admin-profile', (memberRole === 'super_admin' || memberRole === 'admin') ? 'flex' : 'none');
                 if (document.getElementById('nav-adminsettings-main')) setElementDisplaySafe('nav-adminsettings-main', (memberRole === 'super_admin' || memberRole === 'admin') ? 'flex' : 'none');
+                setElementDisplaySafe('nav-websitecontent', (memberRole === 'super_admin' || memberRole === 'admin') ? 'flex' : 'none');
 
                 setElementDisplaySafe('nav-settings', 'flex');
 
@@ -5513,7 +5614,7 @@ html+=`<div class="section-card" id="reportFilters"><div class="section-title"><
                     showSidebar();
                     if (bootLoader) bootLoader.style.display = 'none';
                     var initialRoute=(window.location.hash||'').replace('#','');
-                    var secureInitial={dashboard:1,savings:1,loans:1,loanmanagement:1,guarantors:1,repayments:1,transactions:1,reports:1,profile:1,messages:1,settings:1,adminsettings:1,admin:1,members:1,alltransactions:1,executive:1,chat:1,rights:1};
+                    var secureInitial={dashboard:1,savings:1,loans:1,loanmanagement:1,guarantors:1,repayments:1,transactions:1,reports:1,profile:1,messages:1,settings:1,adminsettings:1,admin:1,members:1,alltransactions:1,executive:1,chat:1,rights:1,contentmanagement:1};
                     if(secureInitial[initialRoute]) navigateTo(initialRoute); else loadDashboard(true);
                 }).catch(function(error){
                     console.error('Account verification failed:', error);
@@ -5537,6 +5638,7 @@ html+=`<div class="section-card" id="reportFilters"><div class="section-title"><
                 setElementDisplaySafe('nav-alltransactions', 'none');
                 setElementDisplaySafe('nav-admin-profile', 'none');
                 if (document.getElementById('nav-adminsettings-main')) setElementDisplaySafe('nav-adminsettings-main', 'none');
+                setElementDisplaySafe('nav-websitecontent', 'none');
                 setElementDisplaySafe('nav-executive', 'none');
                 document.getElementById('mobileMenuToggle').classList.add('hidden');
             }

@@ -115,7 +115,19 @@ function renderSitemapPage(page, pushHistory) {
             el.innerHTML = '<div class="sb-site">'+nav+'<main class="sb-main">'+content+'</main>'+footer+'</div>';
             document.body.classList.add('public-site-body');
             // Public project cards always reflect the latest content published by an administrator.
-            getPublicContentMap(['water','education','women','agriculture','community_development','poultry','bike_skills','entrepreneurship','youth','financial_literacy','other','training']).then(function(map){
+            getPublicContentMap(['projects_intro','home_hero','home_about','home_feature','water','education','women','agriculture','community_development','poultry','bike_skills','entrepreneurship','youth','financial_literacy','other','training']).then(function(map){
+                // Apply published administrator content to the public landing and project introduction.
+                function setPublicText(selector,value){var node=el.querySelector(selector);if(node&&String(value||'').trim())node.textContent=String(value);}
+                if(page==='home') {
+                    var hero=map&&map.home_hero, about=map&&map.home_about, feature=map&&map.home_feature;
+                    if(hero){setPublicText('.sb-hero-copy h1',hero.title);setPublicText('.sb-hero-copy > p',hero.body);var hi=projectImageUrl(map,'home_hero'),himg=el.querySelector('.sb-hero-image img');if(hi&&himg){himg.src=hi;himg.onerror=function(){this.onerror=null;this.src='/assets/images/generated/water-project.jpg';};}}
+                    if(about){setPublicText('.sb-about-preview h2',about.title);setPublicText('.sb-about-preview .sb-section-copy > p',about.body);var ai=projectImageUrl(map,'home_about'),aimg=el.querySelector('.sb-about-photo img');if(ai&&aimg){aimg.src=ai;aimg.onerror=function(){this.onerror=null;this.src='/assets/images/generated/brightlife-team.jpg';};}}
+                    if(feature&&(String(feature.title||'').trim()||String(feature.body||'').trim()||String(feature.image_url||'').trim())){
+                        var existing=el.querySelector('#sb-admin-featured-update');
+                        if(!existing){var section=document.createElement('section');section.id='sb-admin-featured-update';section.className='sb-section sb-admin-featured-update';var wrap=document.createElement('div');wrap.className='sb-featured-update-card';if(feature.image_url){var photo=document.createElement('img');photo.alt=String(feature.title||'Brightlife community update');photo.src=projectImageUrl(map,'home_feature');wrap.appendChild(photo);}var copy=document.createElement('div');copy.className='sb-featured-update-copy';var eyebrow=document.createElement('span');eyebrow.className='sb-eyebrow';eyebrow.textContent='LATEST COMMUNITY UPDATE';var heading=document.createElement('h2');heading.textContent=feature.title||'Community Update';var paragraph=document.createElement('p');paragraph.textContent=feature.body||'';copy.append(eyebrow,heading,paragraph);wrap.appendChild(copy);section.appendChild(wrap);var anchor=el.querySelector('#sb-projects');if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(section,anchor.nextSibling);}
+                    }
+                }
+                if(page==='projects'&&map&&map.projects_intro){setPublicText('.sb-page-banner h1',map.projects_intro.title);setPublicText('.sb-page-banner > div > p',map.projects_intro.body);var pi=projectImageUrl(map,'projects_intro'),pimg=el.querySelector('.sb-page-banner .sb-banner-image');if(pi&&pimg){pimg.src=pi;pimg.onerror=function(){this.onerror=null;this.src='/assets/images/generated/brightlife-team.jpg';};}}
                 el.querySelectorAll('.sb-project-card[data-project-key]').forEach(function(card){
                     var key=card.getAttribute('data-project-key'), item=map&&map[key];
                     if(!item)return;
